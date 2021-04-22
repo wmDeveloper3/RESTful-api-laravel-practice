@@ -28,4 +28,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // Route::delete('country/{id}', 'Country\CountryController@countryDelete');
 
-Route::apiResource('country', 'Country\Country');
+Route::middleware(['middleware' => 'auth:api'])->group(function () {
+    Route::apiResource('country', 'Country\Country');
+});

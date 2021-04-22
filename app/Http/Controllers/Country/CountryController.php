@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Country;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 use App\Models\CountryModel;
-// use Validator;
 
 class CountryController extends Controller
 {
@@ -23,15 +22,17 @@ class CountryController extends Controller
         return response()->json($country, 200);
     }
 
-    public function countrySave(Request $request){
-        // $validator = $request->validate([
-        //     'name' => 'required|min:3',
-        //     'iso' => 'required|min:2|max:2'
-        // ]);
+    public function countrySave(Request $request)
+    {
 
-        // if ($validator->)
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:3',
+            'iso' => 'required|min:2|max:2'
+        ]);
 
-
+        if ($validator->fails()) {
+            return response()->json($validator, 201);
+        }
 
         $country = CountryModel::create($request->all());
 
